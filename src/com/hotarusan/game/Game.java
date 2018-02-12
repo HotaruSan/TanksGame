@@ -1,9 +1,14 @@
 package com.hotarusan.game;
 
+import com.hotarusan.IO.Input;
 import com.hotarusan.display.Display;
+import com.hotarusan.graphics.Sprite;
+import com.hotarusan.graphics.SpriteSheet;
+import com.hotarusan.graphics.TextureAtlas;
 import com.hotarusan.utils.Time;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 /**
  * Created by HotaruSan on 08.02.2018.
@@ -20,21 +25,33 @@ public class Game implements Runnable{                                          
     public static final float   UPDATE_INTERVAL = Time.SECOND / UPDATE_RATE;
     public static final long    IDLE_TIME = 1;                                     //Переменная для задания времени передышки потока в миллисекундах
 
+    public static final String  ATLAS_FILE_NAME = "texture_atlas.png";
+
     private boolean     running;
     private Thread      gameThread;
     private Graphics2D  graphics;
+    private Input       input;
+    private TextureAtlas    atlas;
+    private SpriteSheet     sheet;
+    private Sprite          sprite;
 
     //temp
     float x = 350;
     float y = 250;
     float delta = 0;
     float radius = 50;
+    float speed = 3;
     //end temp
 
     public Game(){
         running = false;
         Display.create(WIDTH, HEIGHT, TITLE, CLEAR_COLOR, NUM_BUFFERS);
-        graphics = Display.getGrapics();
+        graphics = Display.getGraphics();
+        input = new Input();
+        Display.addInputListener(input);
+        atlas = new TextureAtlas(ATLAS_FILE_NAME);
+        sheet = new SpriteSheet(atlas.cut(1*16, 9*16, 1*16, 1*16), 2, 16);
+        sprite = new Sprite(sheet, 2);
     }
 
     public synchronized void start(){                                   //Позволяет запускать только в одном процессе
@@ -60,14 +77,21 @@ public class Game implements Runnable{                                          
     }
 
     private void update(){
-        delta += 0.02f;
+        //delta += 0.02f;
+        if (input.getKey(KeyEvent.VK_UP))
+            y -= speed;
+        if (input.getKey(KeyEvent.VK_DOWN))
+            y += speed;
+        if (input.getKey(KeyEvent.VK_LEFT))
+            x -= speed;
+        if (input.getKey(KeyEvent.VK_RIGHT))
+            x += speed;
     }
 
     private void render(){
         Display.clear();
 
-        graphics.setColor(Color.white);
-        graphics.fillOval((int)(x + Math.sin(delta)*200), (int)y, (int)radius*2, (int)radius*2);
+        sprite.render(graphics, x , y);
 
         Display.swapBuffer();
     }

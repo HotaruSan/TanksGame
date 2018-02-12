@@ -1,5 +1,7 @@
 package com.hotarusan.display;
 
+import com.hotarusan.IO.Input;
+
 import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -63,12 +65,16 @@ public abstract class Display {
         bufferStrategy.show();                              //Показываем новую графику
     }
 
-    public static Graphics2D getGrapics(){
+    public static Graphics2D getGraphics(){
         return (Graphics2D) bufferGraphics;
     }
 
     public static void setTitle(String title){
         window.setTitle(title);
+    }
+
+    public static void addInputListener(Input inputListener){
+        window.add(inputListener);
     }
 
     public static void destroy(){
