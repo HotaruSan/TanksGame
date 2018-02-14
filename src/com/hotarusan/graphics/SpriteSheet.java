@@ -2,6 +2,10 @@ package com.hotarusan.graphics;
 
 import java.awt.image.BufferedImage;
 
+/** Класс для выделения элементов требуемого изображения объекта
+ * из единого набора картинок, так назваемого атласа
+ */
+
 public class SpriteSheet {
     private BufferedImage   sheet;
     private int             spriteCount;

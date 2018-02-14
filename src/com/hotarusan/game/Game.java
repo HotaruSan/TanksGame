@@ -2,13 +2,11 @@ package com.hotarusan.game;
 
 import com.hotarusan.IO.Input;
 import com.hotarusan.display.Display;
-import com.hotarusan.graphics.Sprite;
-import com.hotarusan.graphics.SpriteSheet;
+import com.hotarusan.game.level.Level;
 import com.hotarusan.graphics.TextureAtlas;
 import com.hotarusan.utils.Time;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 
 /**
  * Created by HotaruSan on 08.02.2018.
@@ -33,6 +31,7 @@ public class Game implements Runnable{                                          
     private Input       input;
     private TextureAtlas    atlas;
     private Player      player;
+    private Level       level;
 
     public Game(){
         running = false;
@@ -41,7 +40,8 @@ public class Game implements Runnable{                                          
         input = new Input();
         Display.addInputListener(input);
         atlas = new TextureAtlas(ATLAS_FILE_NAME);
-        player = new Player(300, 300, 3, 3, atlas);
+        player = new Player(300, 300, 2, 3, atlas);
+        level = new Level(atlas);
     }
 
     public synchronized void start(){                                   //Позволяет запускать только в одном процессе
@@ -68,11 +68,13 @@ public class Game implements Runnable{                                          
 
     private void update(){
         player.update(input);
+        level.update();
     }
 
     private void render(){
         Display.clear();
 
+        level.render(graphics);
         player.render(graphics);
 
         Display.swapBuffer();
