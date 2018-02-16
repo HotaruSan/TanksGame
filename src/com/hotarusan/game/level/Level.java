@@ -2,6 +2,7 @@ package com.hotarusan.game.level;
 
 import com.hotarusan.game.Game;
 import com.hotarusan.graphics.TextureAtlas;
+import com.hotarusan.utils.Utils;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -15,13 +16,13 @@ public class Level {
     public static final int TILE_IN_GAME_SCALE = 2;
     public static final int SCALED_TILE_SIZE = TILE_SCALE * TILE_IN_GAME_SCALE;
     public static final int TILES_IN_WIDTH = Game.WIDTH / SCALED_TILE_SIZE;
-    public static final int TILES_IN_HEIGHT = Game.WIDTH / SCALED_TILE_SIZE;
+    public static final int TILES_IN_HEIGHT = Game.HEIGHT / SCALED_TILE_SIZE;
 
-    private  int[][]            tileMap;
+    private  Integer[][]            tileMap;
     private Map<TileType, Tile> tiles;
 
     public Level(TextureAtlas atlas){
-        tileMap = new int[TILES_IN_WIDTH][TILES_IN_HEIGHT];
+        tileMap = new Integer[TILES_IN_WIDTH][TILES_IN_HEIGHT];
         tiles = new HashMap<TileType, Tile>();
         tiles.put(TileType.BRICK, new Tile(atlas.cut(32 * TILE_SCALE, 0 * TILE_SCALE, TILE_SCALE, TILE_SCALE), TILE_IN_GAME_SCALE, TileType.BRICK));
         tiles.put(TileType.METAL, new Tile(atlas.cut(32 * TILE_SCALE, 2 * TILE_SCALE, TILE_SCALE, TILE_SCALE), TILE_IN_GAME_SCALE, TileType.METAL));
@@ -29,14 +30,8 @@ public class Level {
         tiles.put(TileType.GRASS, new Tile(atlas.cut(34 * TILE_SCALE, 4 * TILE_SCALE, TILE_SCALE, TILE_SCALE), TILE_IN_GAME_SCALE, TileType.GRASS));
         tiles.put(TileType.ICE, new Tile(atlas.cut(36 * TILE_SCALE, 4 * TILE_SCALE, TILE_SCALE, TILE_SCALE), TILE_IN_GAME_SCALE, TileType.ICE));
         tiles.put(TileType.EMPTY, new Tile(atlas.cut(36 * TILE_SCALE, 6 * TILE_SCALE, TILE_SCALE, TILE_SCALE), TILE_IN_GAME_SCALE, TileType.EMPTY));
-        
-        tileMap = new int[TILES_IN_WIDTH][TILES_IN_HEIGHT];
 
-        tileMap[10][10] = TileType.BRICK.numeric();
-        tileMap[11][11] = TileType.METAL.numeric();
-        tileMap[12][12] = TileType.WATER.numeric();
-        tileMap[13][13] = TileType.GRASS.numeric();
-        tileMap[14][14] = TileType.ICE.numeric();
+        tileMap = Utils.levelParser("res/level.lvl");
     }
 
     public void update(){

@@ -1,6 +1,5 @@
 package com.hotarusan.game.level;
 
-import com.hotarusan.graphics.SpriteSheet;
 import com.hotarusan.utils.Utils;
 
 import java.awt.*;
